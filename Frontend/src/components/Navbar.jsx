@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
 import { Coins ,Menu,X} from "lucide-react";
@@ -14,7 +14,7 @@ const Navbar = () => {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
   const dispatch = useDispatch();
-
+const navigate=useNavigate()
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -30,6 +30,7 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openProfile]);
+
   useEffect(() => { if (openMobile) { document.body.style.overflow = "hidden"; } else { document.body.style.overflow = "auto"; } }, [openMobile]);
   const handleLogout = async () => {
     try {
@@ -94,6 +95,7 @@ const Navbar = () => {
         <div className=" flex items-center gap-4">
           {userData && (
             <div
+            onClick={()=>navigate('/pricing')}
               className="hidden
        md:flex items-center gap-2 
       px-3 py-1.5 
@@ -138,7 +140,8 @@ const Navbar = () => {
                     userData.user.avatar ||
                     `https://ui-avatars.com/api/?name=${userData.user.name}&background=random&color=fff&size=128`
                   }
-                  alt="hh"
+                  alt=""
+                  referrerPolicy="no-referrer"
                   className="w-9 h-9 rounded-full border border-white/20 object-cover"
                 />
               </button>
@@ -176,7 +179,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Credits Section */}
-                    <div className="px-5 py-3 border-b border-white/10 flex items-center justify-between">
+                    <div onClick={()=>navigate('/pricing')} className="px-5 py-3 border-b border-white/10 flex items-center justify-between">
                       <span className="text-sm text-zinc-300">Credits</span>
 
                       <div className="flex items-center gap-2 px-2 py-1 rounded-full bg-white/5 border border-white/10">

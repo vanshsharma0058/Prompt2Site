@@ -25,10 +25,12 @@ export const generateResponse = async (prompt) => {
         },
       ],
       temperature: 0.2,
+      max_tokens: 8000,
     }),
   });
   if (!res.ok) {
     const err = await res.text();
+    console.log("OpenRouter Error:", err);
     throw new Error(`OpenRouter Error: ${err}`);
   }
   const data = await res.json();

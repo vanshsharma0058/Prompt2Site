@@ -1,7 +1,7 @@
-import { motion } from "motion/react";
+import { isPrimaryPointer, motion } from "motion/react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import { Plus } from "lucide-react";
 //The work of this container is children show at delay of 0.2s
 const container = {
   hidden: {},
@@ -74,15 +74,29 @@ const Hero = () => {
         >
           Get Started 🚀
         </motion.button>
-      </Link>:<Link to="/dashboard">
+      </Link>:<div className="mt-8 flex gap-4">
+      
+      <Link to="/dashboard">
         <motion.button
           variants={item}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.98 }}
-          className="mt-8 px-6 py-3 rounded-xl bg-linear-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-700/30 cursor-pointer"
+          className=" px-6 py-3 rounded-xl bg-linear-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-700/30 cursor-pointer"
         >
           Go to dashboard 🚀
         </motion.button></Link>
+          <Link to="/generate">
+            <motion.button
+              variants={item}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-linear-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-700/30 cursor-pointer"
+            >
+              <Plus size={18} />
+              New Website
+            </motion.button>
+          </Link>
+        </div>
       }
     </motion.section>
   );

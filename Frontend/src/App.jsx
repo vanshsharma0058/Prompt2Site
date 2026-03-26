@@ -12,7 +12,8 @@ import Dashboard from "./pages/Dashboard";
 import { useSelector } from "react-redux";
 import DashLayout from "./layouts/DashLayout";
 import Generate from "./pages/Generate";
-import Editor from "./pages/Editor";
+import WebEditor from "./pages/Editor";
+import LiveSite from "./pages/LiveSite";
 export const serverUrl = "http://localhost:3000";
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
 
   const { userData } = useSelector((state) => state.user);
   return (
-    <div className="relative bg-[#0b0f1a] text-white ">
+    <div className="relative bg-[rgb(11,15,26)] text-white ">
       <Background />
       <div className="relative z-10 min-h-screen">
         <Toaster
@@ -37,8 +38,7 @@ const App = () => {
         {/* Pages WITH Navbar & Footer */}
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/" element={<Home />} />           
             <Route path="/docs" element={<Docs />} />
           </Route>
           
@@ -52,12 +52,13 @@ const App = () => {
             />
             <Route
               path="/editor/:id"
-              element={userData ? <Editor /> : <Home />}
+              element={userData ? <WebEditor/> : <Home />}
             />
 
-       
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/site/:id" element={<LiveSite/>}/>
         </Routes>
       </div>
     </div>
