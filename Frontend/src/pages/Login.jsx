@@ -50,7 +50,7 @@ const Login = () => {
           { email: form.email, password: form.password },
           { withCredentials: true },
         );
-        dispatch(setUserData(data.user));
+        dispatch(setUserData(data));
         toast.success("User logging in Successfully! 🎉");
         navigate("/");
       } catch (err) {

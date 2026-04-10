@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
-import { Coins ,Menu,X} from "lucide-react";
+import { Coins, Menu, X } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
 import { serverUrl } from "../App";
@@ -14,7 +14,8 @@ const Navbar = () => {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
   const dispatch = useDispatch();
-const navigate=useNavigate()
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -31,7 +32,17 @@ const navigate=useNavigate()
     };
   }, [openProfile]);
 
-  useEffect(() => { if (openMobile) { document.body.style.overflow = "hidden"; } else { document.body.style.overflow = "auto"; } }, [openMobile]);
+  useEffect(() => {
+    document.body.style.overflow = openMobile ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [openMobile]);
+
+  useEffect(() => {
+    setOpenMobile(false);
+  }, [pathname]);
+
   const handleLogout = async () => {
     try {
       await axios.get(`${serverUrl}/api/auth/logout`, {
@@ -83,19 +94,21 @@ const navigate=useNavigate()
             Docs
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-linear-to-r from-purple-400 to-blue-400 transition-all group-hover:w-full"></span>
           </Link>
-          {userData && ( <Link
-            to="/dashboard"
-            className="relative group hover:text-white transition"
-          >
-            Dashboard
-            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-linear-to-r from-purple-400 to-blue-400 transition-all group-hover:w-full"></span>
-          </Link> ) }
+          {userData && (
+            <Link
+              to="/dashboard"
+              className="relative group hover:text-white transition"
+            >
+              Dashboard
+              <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-linear-to-r from-purple-400 to-blue-400 transition-all group-hover:w-full"></span>
+            </Link>
+          )}
         </div>
 
         <div className=" flex items-center gap-4">
           {userData && (
             <div
-            onClick={()=>navigate('/pricing')}
+              onClick={() => navigate("/pricing")}
               className="hidden
        md:flex items-center gap-2 
       px-3 py-1.5 
@@ -111,8 +124,9 @@ const navigate=useNavigate()
               <div className="flex items-center justify-center w-5 h-5 rounded-full bg-purple-600/20">
                 <Coins className="w-4 h-4 text-purple-400" />
               </div>
-
-              <span className="tracking-wide">{userData.user.credits}</span>
+              {userData && (
+                <span className="tracking-wide">{userData?.user.credits}</span>
+              )}
             </div>
           )}
 
@@ -145,7 +159,7 @@ const navigate=useNavigate()
                   className="w-9 h-9 rounded-full border border-white/20 object-cover"
                 />
               </button>
-             
+
               <AnimatePresence>
                 {openProfile && (
                   <motion.div
@@ -179,7 +193,10 @@ const navigate=useNavigate()
                     </div>
 
                     {/* Credits Section */}
-                    <div onClick={()=>navigate('/pricing')} className="px-5 py-3 border-b border-white/10 flex items-center justify-between">
+                    <div
+                      onClick={() => navigate("/pricing")}
+                      className="px-5 py-3 border-b border-white/10 flex items-center justify-between"
+                    >
                       <span className="text-sm text-zinc-300">Credits</span>
 
                       <div className="flex items-center gap-2 px-2 py-1 rounded-full bg-white/5 border border-white/10">
@@ -191,7 +208,6 @@ const navigate=useNavigate()
                     </div>
 
                     {/* Navigation Links */}
-                 
 
                     {/* Logout */}
                     <div className="border-t border-white/10">
@@ -213,44 +229,43 @@ const navigate=useNavigate()
           )}
 
           <div className="relative">
-           <button
-            className="md:hidden text-white flex items-center"
-            onClick={() => setOpenMobile(!openMobile)}
-          >
-            {openMobile ? <X /> : <Menu />}
-          </button>
+            <button
+              className="md:hidden text-white flex items-center"
+              onClick={() => setOpenMobile(!openMobile)}
+            >
+              {openMobile ? <X /> : <Menu />}
+            </button>
 
-          {/* Mobile menu */}
+            {/* Mobile menu */}
 
-<AnimatePresence>
-  {openMobile&& (
-    <motion.div
-    ref={dropdownRef}
-    initial={{height:0,opacity:0}}
-    animate={{height:"auto",opacity:1}}
-    exit={{height:0,opacity:0}}
-    transition={{duration:0.25}}
-    className="md:hidden absolute right-0 top-7 mt-4 w-64 z-50 px-3 py-2
+            <AnimatePresence>
+              {openMobile && (
+                <motion.div
+                  ref={dropdownRef}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="md:hidden absolute right-0 top-7 mt-4 w-64 z-50 px-3 py-2
         rounded-2xl
         bg-linear-to-b from-[#111827]/95 to-[#0b0f1a]/95
         backdrop-blur-2xl
         border border-white/10
         shadow-[0_10px_40px_rgba(0,0,0,0.6)]
         overflow-hidden"
-    >
-           <div className="flex flex-col  text-gray-300">
-
-               {/* Navigation Links */}
-                    <div >
+                >
+                  <div className="flex flex-col  text-gray-300">
+                    {/* Navigation Links */}
+                    <div>
                       {[
                         { name: "Home", path: "/" },
                         { name: "Pricing", path: "/pricing" },
                         { name: "Docs", path: "/docs" },
-                        
                       ].map((item) => (
                         <Link
                           key={item.name}
                           to={item.path}
+                          onClick={() => setOpenMobile(false)}
                           className="
               block px-5 py-2.5 text-sm text-zinc-300
               hover:bg-white/5 hover:text-white
@@ -261,40 +276,44 @@ const navigate=useNavigate()
                         </Link>
                       ))}
                     </div>
-              {userData ?(
-                <>
-                <Link
-                    to="/dashboard"
-                    onClick={() => setOpenMobile(false)}
-                    className="
+                    {userData ? (
+                      <>
+                        <Link
+                          to="/dashboard"
+                          onClick={() => setOpenMobile(false)}
+                          className="
               px-5  py-2.5 text-sm text-zinc-300
               hover:bg-white/5 hover:text-white
               transition-all duration-200 border-b border-white/10
             "
-                  >
-                    Dashboard
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="py-2.5 text-red-400 bg-red-500/10 rounded-b-lg
+                        >
+                          Dashboard
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="py-2.5 text-red-400 bg-red-500/10 rounded-b-lg
             transition-all duration-200"
-                  >
-                    Logout
-                  </button>
-                </>
-              ):( <Link to="/login" onClick={() => setOpenMobile(false)}
-              className="px-5 py-2 rounded-b-lg
+                        >
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <Link
+                        to="/login"
+                        onClick={() => setOpenMobile(false)}
+                        className="px-5 py-2 rounded-b-lg
         bg-linear-to-r from-purple-600 to-blue-600 
         hover:scale-105 transition duration-300 
         shadow-xl shadow-purple-700/30 text-center cursor-pointer"
-              >
-                  Get Started
-                </Link>)}
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
-</div>
+                      >
+                        Get Started
+                      </Link>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
       {/* Premium Glow Line */}

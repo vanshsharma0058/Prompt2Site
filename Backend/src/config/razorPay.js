@@ -5,6 +5,6 @@ export const PLANS = {
   enterprise: { price: 999, credits: 1000, plan: "Enterprise" },
 };
 export const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY,
+  key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_SECRET,
 });

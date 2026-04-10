@@ -1,7 +1,13 @@
 import { ArrowLeft, Check, Coins } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { serverUrl } from "../App";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../Redux/userSlice";
 const pricingPlans = [
   {
     key: "free",
@@ -14,7 +20,7 @@ const pricingPlans = [
       "Basic website templates",
       "Standard support",
       "Export HTML & CSS",
-      "Easily Deploy"
+      "Easily Deploy",
     ],
     popular: false,
     button: "Get Started",
@@ -54,11 +60,93 @@ const pricingPlans = [
 ];
 
 const Pricing = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userData } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
+  const [loadingPlan, setLoadingPlan] = useState(null);
+  const handleBuy = async (planKey) => {
+    if (!userData) {
+      navigate("/");
+      return;
+    }
+    setLoadingPlan(planKey);
+    if (planKey === "free") {
+      navigate("/dashboard");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const result = await axios.post(
+        `${serverUrl}/api/billing/create-checkout-session`,
+        { planType: planKey },
+        { withCredentials: true },
+      );
+
+      if (!window.Razorpay) {
+        alert("Razorpay SDK not loaded");
+        return;
+      }
+
+      const options = {
+        key: result.data.key_id,
+        amount: result.data.amount,
+        currency: "INR",
+        name: result.data.productName,
+        description: `Purchase ${result.data.credits} credits for ${result.data.plan} plan`,
+        order_id: result.data.orderId,
+
+        handler: async function (response) {
+          try {
+            const verifyRes = await axios.post(
+              `${serverUrl}/api/billing/verify-payment`,
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              },
+              { withCredentials: true },
+            );
+            dispatch(setUserData({ user: verifyRes.data.user }));
+            toast.success(
+              "Payment successful! Credits added to your account 🎉",
+            );
+            navigate("/dashboard");
+          } catch (err) {
+            console.error("Verification failed", err);
+            alert("Payment verification failed ❌");
+            setLoadingPlan(null);
+          }
+        },
+
+        prefill: {
+          name: userData?.user?.name,
+          email: userData?.user?.email,
+        },
+
+        theme: {
+          color: "#7c3aed",
+        },
+      };
+
+      const rzp1 = new window.Razorpay(options);
+      rzp1.on("payment.failed", function (response) {
+        alert("Payment failed ❌");
+        console.error(response.error);
+      });
+      rzp1.open();
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="relative min-h-screen overflow-hidden px-4 sm:px-6 pt-10 pb-24  text-white">
-
+    <div className="relative min-h-screen overflow-visible px-4 sm:px-6 pt-10 pb-24  text-white">
       {/* Back Button */}
       <button
         className="mb-8 flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
@@ -85,14 +173,13 @@ const Pricing = () => {
 
       {/* Pricing Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-
         {pricingPlans.map((plan, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{  y: -10, scale: 1.02  }}
+            whileHover={{ y: -10, scale: 1.02 }}
             className={`relative rounded-2xl border p-6 sm:p-8 backdrop-blur-xl transition
             ${
               plan.popular
@@ -100,7 +187,6 @@ const Pricing = () => {
                 : "border-white/10 bg-linear-to-b from-purple-400/10 to-transparent"
             }`}
           >
-
             {/* Popular Badge */}
             {plan.popular && (
               <div className="absolute -top-3 left-6 bg-purple-600 text-xs px-3 py-1 rounded-full font-medium">
@@ -114,23 +200,19 @@ const Pricing = () => {
             </h3>
 
             {/* Description */}
-            <p className="text-zinc-400 text-sm mb-6">
-              {plan.descriptions}
-            </p>
+            <p className="text-zinc-400 text-sm mb-6">{plan.descriptions}</p>
 
             {/* Price */}
             <div className="mb-6">
               <span className="text-3xl sm:text-4xl font-bold">
                 ₹{plan.price}
               </span>
-              <span className="text-zinc-400 ml-2 text-sm">
-                / one-time
-              </span>
+              <span className="text-zinc-400 ml-2 text-sm">/ one-time</span>
             </div>
 
             {/* Credits */}
             <p className="flex gap-2 items-center text-sm text-purple-400 mb-6">
-              <Coins size={18} className="text-yellow-400"/>
+              <Coins size={18} className="text-yellow-400" />
               {plan.credits} Credits Included
             </p>
 
@@ -149,6 +231,8 @@ const Pricing = () => {
 
             {/* Button */}
             <button
+              disabled={loadingPlan && loadingPlan !== plan.key}
+              onClick={() => handleBuy(plan.key)}
               className={`w-full py-3 rounded-lg text-sm font-medium transition
               ${
                 plan.popular
@@ -156,9 +240,8 @@ const Pricing = () => {
                   : "bg-linear-to-r from-purple-500 to-indigo-600 hover:opacity-90"
               } disabled:opacity-65`}
             >
-              {plan.button}
+              {loadingPlan === plan.key ? "Processing..." : plan.button}
             </button>
-
           </motion.div>
         ))}
       </div>

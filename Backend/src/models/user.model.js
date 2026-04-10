@@ -35,8 +35,8 @@ const userSchema = new mongoose.Schema(
     },
     plan: {
       type: String,
-      enum: ["Free", "Pro", "Enterprise"], //this for the multiple value of choice
-      default: "Free",
+      enum: ["free", "pro", "enterprise"], //this for the multiple value of choice
+      default: "free",
     },
   },
   { timestamps: true },

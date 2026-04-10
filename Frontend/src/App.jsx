@@ -14,6 +14,14 @@ import DashLayout from "./layouts/DashLayout";
 import Generate from "./pages/Generate";
 import WebEditor from "./pages/Editor";
 import LiveSite from "./pages/LiveSite";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
+import Term from "./pages/Term";
+import ScrollToTop from "./components/ScrollToTop";
+import PaymentHistory from "./pages/PaymentHistory";
+
+
 export const serverUrl = "http://localhost:3000";
 
 const App = () => {
@@ -35,30 +43,37 @@ const App = () => {
             },
           }}
         />
+        <ScrollToTop />
         {/* Pages WITH Navbar & Footer */}
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />           
+            <Route path="/" element={<Home />} />
+             <Route path="/about" element={<About />} />
+             <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Term />} />
+          </Route>
+          <Route element={<DashLayout />}>
             <Route path="/docs" element={<Docs />} />
           </Route>
-          
-            <Route
-              path="/dashboard"
-              element={userData ? <Dashboard /> : <Home />}
-            />
-            <Route
-              path="/generate"
-              element={userData ? <Generate /> : <Home />}
-            />
-            <Route
-              path="/editor/:id"
-              element={userData ? <WebEditor/> : <Home />}
-            />
-
+          <Route
+            path="/dashboard"
+            element={userData ? <Dashboard /> : <Home />}
+          />
+          <Route
+            path="/generate"
+            element={userData ? <Generate /> : <Home />}
+          />
+          <Route
+            path="/editor/:id"
+            element={userData ? <WebEditor /> : <Home />}
+          />
+         
+          <Route path="/payment-history" element={userData ? <PaymentHistory /> : <Home />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/site/:id" element={<LiveSite/>}/>
+          <Route path="/site/:id" element={<LiveSite />} />
         </Routes>
       </div>
     </div>

@@ -112,7 +112,8 @@ const Dashboard = () => {
           </div>
 
           {/* Right */}
-          <Link to="/generate">
+          <div className="flex gap-2">
+            <Link to="/generate">
             <button
               className="flex items-center gap-2 px-4 py-2 rounded-lg 
               bg-linear-to-r from-purple-600 to-blue-600 
@@ -122,6 +123,18 @@ const Dashboard = () => {
               New Website
             </button>
           </Link>
+          <Link to="/payment-history">
+            <button
+              className="flex items-center gap-2 px-4 py-2 rounded-lg 
+              bg-linear-to-r from-purple-600 to-blue-600 
+              hover:scale-105 transition shadow-lg shadow-purple-900/30"
+            >
+              
+            Payment-History
+            </button>
+          </Link>
+          </div>
+          
         </div>
       </motion.div>
 

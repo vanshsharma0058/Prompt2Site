@@ -29,24 +29,23 @@ const Footer = () => {
       Features
     </a></li>
             <li className="hover:text-white transition cursor-pointer"><Link to="/pricing">Pricing</Link></li>
-            <li className="hover:text-white transition cursor-pointer">Docs</li>
+            <li className="hover:text-white transition cursor-pointer"><Link to="/docs">Docs</Link></li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-white font-medium mb-4">Company</h4>
           <ul className="space-y-2 text-gray-400">
-            <li className="hover:text-white transition cursor-pointer">About</li>
-            <li className="hover:text-white transition cursor-pointer">Contact</li>
-            
+            <li className="hover:text-white transition cursor-pointer"><Link to="/about">About</Link></li>
+            <li className="hover:text-white transition cursor-pointer"><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
 
         <div>
           <h4 className="text-white font-medium mb-4">Legal</h4>
           <ul className="space-y-2 text-gray-400">
-            <li className="hover:text-white transition cursor-pointer">Privacy Policy</li>
-            <li className="hover:text-white transition cursor-pointer">Terms of Service</li>
+            <li className="hover:text-white transition cursor-pointer"><Link to="/privacy">Privacy Policy</Link></li>
+            <li className="hover:text-white transition cursor-pointer"><Link to="/terms">Terms of Service</Link></li>
           </ul>
         </div>
 
@@ -61,9 +60,9 @@ const Footer = () => {
       </p>
 
       <div className="flex gap-6">
-        <span className="hover:text-white transition cursor-pointer">Instagram</span>
-        <span className="hover:text-white transition cursor-pointer">GitHub</span>
-        <span className="hover:text-white transition cursor-pointer">LinkedIn</span>
+        <span className="hover:text-white transition cursor-pointer"><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a></span>
+        <span className="hover:text-white transition cursor-pointer"><a href="https://github.com/vanshsharma0058" target="_blank" rel="noopener noreferrer">GitHub</a></span>
+        <span className="hover:text-white transition cursor-pointer"><a href="https://www.linkedin.com/in/vansh58sharma" target="_blank" rel="noopener noreferrer">LinkedIn</a></span>
       </div>
     </div>
 

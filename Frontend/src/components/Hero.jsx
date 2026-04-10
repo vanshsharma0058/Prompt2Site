@@ -74,7 +74,8 @@ const Hero = () => {
         >
           Get Started 🚀
         </motion.button>
-      </Link>:<div className="mt-8 flex gap-4">
+      </Link>:
+      <div className="mt-8 flex flex-col sm:flex-row gap-4">
       
       <Link to="/dashboard">
         <motion.button
@@ -93,7 +94,7 @@ const Hero = () => {
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-linear-to-r from-purple-600 to-blue-600 shadow-lg shadow-purple-700/30 cursor-pointer"
             >
               <Plus size={18} />
-              New Website
+              New Website 🚀
             </motion.button>
           </Link>
         </div>
