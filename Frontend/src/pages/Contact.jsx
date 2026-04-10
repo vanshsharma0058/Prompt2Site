@@ -44,7 +44,6 @@ const Contact = () => {
         email: "",
         message: "",
       });
-
     } catch (error) {
       console.error(error);
       toast.error("Failed to send message");
@@ -54,10 +53,17 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen px-6 md:px-16 py-20 text-white relative">
-
+    <div className="min-h-screen px-6 md:px-16 py-20 text-white relative overflow-x-hidden">
       {/* Glow Background */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-125 h-125 bg-blue-600/20 blur-[120px] rounded-full -z-10" />
+      <div
+        className="
+  absolute top-0 left-1/2 -translate-x-1/2 
+  w-[400px] h-[400px] 
+  sm:w-[500px] sm:h-[500px] 
+  md:w-[600px] md:h-[600px] 
+  bg-purple-600/20 blur-[120px] rounded-full -z-10
+"
+      />
 
       {/* HERO */}
       <motion.div
@@ -79,7 +85,6 @@ const Contact = () => {
 
       {/* MAIN */}
       <div className="grid md:grid-cols-2 gap-12 mt-20 max-w-6xl mx-auto">
-
         {/* LEFT */}
         <div className="space-y-6">
           <InfoCard icon={<Mail />} title="Email">
@@ -136,14 +141,12 @@ const Contact = () => {
             {loading ? "Sending..." : "Send Message"}
           </motion.button>
         </motion.form>
-
       </div>
     </div>
   );
 };
 
 export default Contact;
-
 
 const Input = ({ placeholder, type = "text", name, value, onChange }) => {
   return (

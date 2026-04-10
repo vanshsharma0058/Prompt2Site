@@ -4,10 +4,16 @@ import { Sparkles, Rocket, Code2, Users, Globe } from "lucide-react";
 
 const About = () => {
   return (
-    <div className="min-h-screen px-6 md:px-16 py-20 text-white relative">
+    <div className="min-h-screen px-6 md:px-16 py-20 text-white relative overflow-x-hidden">
 
       {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 bg-purple-600/20 blur-[120px] rounded-full -z-10" />
+      <div className="
+  absolute top-0 left-1/2 -translate-x-1/2 
+  w-[400px] h-[400px] 
+  sm:w-[500px] sm:h-[500px] 
+  md:w-[600px] md:h-[600px] 
+  bg-purple-600/20 blur-[120px] rounded-full -z-10
+" />
 
       {/* HERO */}
       <motion.div

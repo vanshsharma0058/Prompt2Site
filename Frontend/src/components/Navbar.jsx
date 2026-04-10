@@ -103,6 +103,15 @@ const Navbar = () => {
               <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-linear-to-r from-purple-400 to-blue-400 transition-all group-hover:w-full"></span>
             </Link>
           )}
+          {userData && (
+            <Link
+              to="/payment-history"
+              className="relative group hover:text-white transition"
+            >
+              Payment-history
+              <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-linear-to-r from-purple-400 to-blue-400 transition-all group-hover:w-full"></span>
+            </Link>
+          )}
         </div>
 
         <div className=" flex items-center gap-4">
