@@ -30,9 +30,9 @@ async function registerUser(req, res) {
 
   res.cookie("token",token,{
       httpOnly: true,
-      secure: false,
-      sameSite: "lax", //none at a time secure when true
-      maxAge: 7 * 24 * 60 * 60 * 1000, //convert the 5 days into time
+      secure: true,
+      sameSite: "none", //none at a time secure when true
+      maxAge: 1 * 24 * 60 * 60 * 1000, //convert the 5 days into time
     })
 
     return res.status(201).json({
@@ -72,9 +72,9 @@ async function loginUser(req,res){
 
     res.cookie("token",token,{
   httpOnly: true,
-  secure: false,
-  sameSite: "lax",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
+  secure: true,
+  sameSite: "none",
+  maxAge: 1 * 24 * 60 * 60 * 1000,
 })
 
     return res.status(200).json({
@@ -109,9 +109,9 @@ async function googleAuth(req, res) {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax", //none at a time secure when true
-      maxAge: 5 * 24 * 60 * 60 * 1000, //convert the 1 days into time
+      secure: true,
+      sameSite: "none", //none at a time secure when true
+      maxAge: 1 * 24 * 60 * 60 * 1000, //convert the 1 days into time
     });
 
     return res.status(200).json({
@@ -131,8 +131,8 @@ async function logoutUser(req, res) {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
-      sameSite: "strict",
+      secure: true,
+      sameSite: "none",
     });
     res.status(200).json({ message: "User logged out sucessfully" });
   } catch (error) {
