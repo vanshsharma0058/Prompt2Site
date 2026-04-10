@@ -22,7 +22,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import PaymentHistory from "./pages/PaymentHistory";
 import NotFound from "./pages/NotFound";
 
-export const serverUrl = "http://localhost:3000";
+export const serverUrl = "https://prompt2site-5tiq.onrender.com";
 
 const App = () => {
   useGetCurrentUser();
