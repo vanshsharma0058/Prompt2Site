@@ -20,7 +20,7 @@ import Privacy from "./pages/Privacy";
 import Term from "./pages/Term";
 import ScrollToTop from "./components/ScrollToTop";
 import PaymentHistory from "./pages/PaymentHistory";
-
+import NotFound from "./pages/NotFound";
 
 export const serverUrl = "http://localhost:3000";
 
@@ -74,6 +74,8 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/site/:id" element={<LiveSite />} />
+          
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </div>
