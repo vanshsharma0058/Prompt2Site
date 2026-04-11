@@ -298,6 +298,17 @@ const Navbar = () => {
                         >
                           Dashboard
                         </Link>
+                        {userData && (
+                          <Link
+                            to="/payment-history"
+                            onClick={() => setOpenMobile(false)}
+                            className=" px-5  py-2.5 text-sm text-zinc-300
+              hover:bg-white/5 hover:text-white
+              transition-all duration-200 border-b border-white/10"
+                          >
+                            Payment-history
+                          </Link>
+                        )}
                         <button
                           onClick={handleLogout}
                           className="py-2.5 text-red-400 bg-red-500/10 rounded-b-lg

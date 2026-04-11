@@ -33,11 +33,16 @@ const Dashboard = () => {
       window.open(`${result.data.url}`, "_blank");
       setWebsites((prev) =>
         prev.map((w) =>
-          w._id === id ? { ...w, deployed: true, deployUrl: result.data.url } : w,
+          w._id === id
+            ? { ...w, deployed: true, deployUrl: result.data.url }
+            : w,
         ),
       );
     } catch (error) {
-      error.response?.data?.message || error.message || "Something went wrong";
+      const errMsg =
+        error.response?.data?.message ||
+        error.message ||
+        "Something went wrong";
       console.error("Deploy error", error);
       toast.error(errMsg);
       setError(errMsg);
@@ -114,18 +119,16 @@ const Dashboard = () => {
           {/* Right */}
           <div className="flex gap-2">
             <Link to="/generate">
-            <button
-              className="flex items-center gap-2 px-4 py-2 rounded-lg 
+              <button
+                className="flex items-center gap-2 px-4 py-2 rounded-lg 
               bg-linear-to-r from-purple-600 to-blue-600 
               hover:scale-105 transition shadow-lg shadow-purple-900/30"
-            >
-              <Plus size={18} />
-              New Website
-            </button>
-          </Link>
-         
+              >
+                <Plus size={18} />
+                New Website
+              </button>
+            </Link>
           </div>
-          
         </div>
       </motion.div>
 

@@ -129,7 +129,7 @@ const PaymentHistory = () => {
 
               <span className="text-purple-400">{p.credits}</span>
 
-              <span>₹{p.amount}</span>
+              <span>₹{p.amount/100}</span>
 
               <span>
                 <span className="px-3 py-1 text-xs rounded-full bg-green-500/20 text-green-400">
