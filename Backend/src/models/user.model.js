@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["free", "pro", "enterprise"], //this for the multiple value of choice
       default: "free",
+      set: (value) => value?.toLowerCase?.() || value, // Normalize to lowercase
     },
   },
   { timestamps: true },
